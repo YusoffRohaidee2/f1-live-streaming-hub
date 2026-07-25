@@ -5,18 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>F1 Live Streaming Hub</title>
     
-    <!-- Tailwind CSS -->
+    <!-- Tailwind CSS & FontAwesome -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
     <!-- Video.js CSS & JS -->
-    <link href="https://vjs.zencdn.net/8.3.0/video-js.css" rel="stylesheet" />
-    <script src="https://vjs.zencdn.net/8.3.0/video.min.js"></script>
+    <link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet" />
+    <script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
 
     <style>
+        :root { --neon-glow: #e10600; }
         body { font-family: 'Inter', sans-serif; background-color: #0b0f19; }
         
-        /* Kelajuan diperlahankan dari 35s ke 55s */
         @keyframes marquee {
             0% { transform: translateX(100%); }
             100% { transform: translateX(-100%); }
@@ -40,6 +41,14 @@
             background: #374151;
             border-radius: 2px;
         }
+        .mini-channel-item.active {
+            border-color: #e10600 !important;
+            background-color: rgba(225, 6, 0, 0.2) !important;
+        }
+        .tab-btn.active {
+            background-color: #e10600 !important;
+            color: #ffffff !important;
+        }
     </style>
 </head>
 <body class="text-gray-100 min-h-screen flex flex-col justify-between select-none text-xs">
@@ -60,10 +69,10 @@
         </div>
     </header>
 
-    <!-- Ticker (Running Text Diperlahankan) -->
+    <!-- Ticker -->
     <div class="bg-red-600 text-white py-1 overflow-hidden whitespace-nowrap font-bold text-[11px] tracking-wide shadow-inner">
         <div class="inline-block animate-marquee uppercase">
-            🚨 FORMULA 1 2026 SEASON LIVE &nbsp;|&nbsp; WATCH LIVE HERE &nbsp;|&nbsp; UPCOMING ROUNDS: HUNGARIAN GP (JUL 24–26) • DUTCH GP (AUG 21–23) • ITALIAN GP (SEP 4–6) • MADRID GP (SEP 11–13) • AZERBAIJAN GP (SEP 25–27) • SINGAPORE GP (OCT 9–11) • UNITED STATES GP (OCT 23–25) • MEXICO GP (OCT 30–NOV 1) • BRAZILIAN GP (NOV 6–8) • LAS VEGAS GP (NOV 19–21) • QATAR GP (NOV 27–29) • ABU DHABI GP (DEC 4–6) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            🚨 FORMULA 1 2026 SEASON LIVE &nbsp;|&nbsp; WATCH LIVE HERE &nbsp;|&nbsp; CURRENT ROUND: 🇭🇺 R11 HUNGARIAN GP (JUL 24–26) 🔴 LIVE NOW &nbsp;|&nbsp; UPCOMING ROUNDS: R12 DUTCH GP (AUG 21–23) ⚡ • R13 ITALIAN GP (SEP 4–6) • R14 SPANISH GP MADRID (SEP 11–13) • R15 AZERBAIJAN GP (SEP 24–26) • R16 SINGAPORE GP (OCT 9–11) ⚡ • R17 UNITED STATES GP (OCT 23–25) • R18 MEXICO CITY GP (OCT 30–NOV 1) • R19 SÃO PAULO GP (NOV 6–8) • R20 LAS VEGAS GP (NOV 19–21) • R21 QATAR GP (NOV 27–29) • R22 ABU DHABI GP (DEC 4–6) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         </div>
     </div>
 
@@ -72,89 +81,236 @@
         
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-3 items-start">
             
-            <!-- LEFT COLUMN: Upcoming Races -->
-            <div class="order-2 lg:order-1 lg:col-span-3 bg-gray-900 rounded-xl border border-gray-800 p-3 h-[420px] lg:h-[540px] flex flex-col">
-                <div class="flex items-center justify-between pb-2 border-b border-gray-800 mb-2">
-                    <h3 class="font-bold text-white text-xs flex items-center gap-1.5">
-                        🏁 Upcoming Races
-                    </h3>
-                    <span class="text-[10px] bg-red-600/20 text-red-400 font-semibold px-1.5 py-0.5 rounded border border-red-500/30">Active Season</span>
-                </div>
+            <!-- LEFT COLUMN: Upcoming Races, Circuit Info & Weather -->
+            <div class="order-2 lg:order-1 lg:col-span-3 space-y-3">
+                
+                <!-- Upcoming Races -->
+                <div class="bg-gray-900 rounded-xl border border-gray-800 p-3 h-[320px] flex flex-col">
+                    <div class="flex items-center justify-between pb-2 border-b border-gray-800 mb-2">
+                        <h3 class="font-bold text-white text-xs flex items-center gap-1.5">
+                            🏁 Race Calendar
+                        </h3>
+                        <span class="text-[10px] bg-red-600/20 text-red-400 font-semibold px-1.5 py-0.5 rounded border border-red-500/30">2026 Calendar</span>
+                    </div>
 
-                <div class="overflow-y-auto space-y-1.5 flex-grow pr-1 custom-scrollbar">
-                    
-                    <!-- Hungarian GP (LIVE/CURRENT) -->
-                    <div class="p-2 rounded bg-red-950/70 border border-red-600 flex justify-between items-center shadow-md">
-                        <div>
-                            <div class="flex items-center gap-1 font-bold text-white">
-                                <span class="bg-red-600 text-white text-[9px] px-1 py-0.2 rounded font-black animate-pulse">LIVE NOW</span>
-                                <span>Hungarian GP</span>
+                    <div class="overflow-y-auto space-y-1.5 flex-grow pr-1 custom-scrollbar">
+                        
+                        <!-- R11 Hungarian GP (LIVE NOW) -->
+                        <div class="p-2 rounded bg-red-950/90 border border-red-500 flex justify-between items-center shadow-lg animate-pulse">
+                            <div>
+                                <div class="flex items-center gap-1 font-bold text-white">
+                                    <span class="text-[10px]">🇭🇺 R11</span>
+                                    <span>Hungarian GP</span>
+                                    <span class="text-[8px] bg-red-600 text-white font-extrabold px-1 rounded uppercase">🔴 LIVE</span>
+                                </div>
+                                <div class="text-gray-300 text-[9px]">Hungaroring</div>
                             </div>
-                            <div class="text-gray-300 text-[10px]">Budapest</div>
+                            <div class="text-right font-bold text-red-400 text-[10px]">24–26 Jul</div>
                         </div>
-                        <div class="text-right font-semibold text-red-400 text-[10px]">Jul 24–26</div>
-                    </div>
 
-                    <div class="p-2 rounded bg-gray-950/50 border border-gray-800 flex justify-between items-center">
-                        <div><span class="font-bold text-gray-300">Dutch GP</span> (Sprint)</div>
-                        <div class="text-gray-400 text-[10px]">Aug 21–23</div>
-                    </div>
-                    <div class="p-2 rounded bg-gray-950/50 border border-gray-800 flex justify-between items-center">
-                        <div><span class="font-bold text-gray-300">Italian GP</span></div>
-                        <div class="text-gray-400 text-[10px]">Sep 4–6</div>
-                    </div>
-                    <div class="p-2 rounded bg-gray-950/50 border border-gray-800 flex justify-between items-center">
-                        <div><span class="font-bold text-gray-300">Madrid GP</span></div>
-                        <div class="text-gray-400 text-[10px]">Sep 11–13</div>
-                    </div>
-                    <div class="p-2 rounded bg-gray-950/50 border border-gray-800 flex justify-between items-center">
-                        <div><span class="font-bold text-gray-300">Azerbaijan GP</span></div>
-                        <div class="text-gray-400 text-[10px]">Sep 25–27</div>
-                    </div>
-                    <div class="p-2 rounded bg-gray-950/50 border border-gray-800 flex justify-between items-center">
-                        <div><span class="font-bold text-gray-300">Singapore GP</span> (Sprint)</div>
-                        <div class="text-gray-400 text-[10px]">Oct 9–11</div>
-                    </div>
-                    <div class="p-2 rounded bg-gray-950/50 border border-gray-800 flex justify-between items-center">
-                        <div><span class="font-bold text-gray-300">United States GP</span></div>
-                        <div class="text-gray-400 text-[10px]">Oct 23–25</div>
-                    </div>
-                    <div class="p-2 rounded bg-gray-950/50 border border-gray-800 flex justify-between items-center">
-                        <div><span class="font-bold text-gray-300">Mexico GP</span></div>
-                        <div class="text-gray-400 text-[10px]">Oct 30–Nov 1</div>
-                    </div>
-                    <div class="p-2 rounded bg-gray-950/50 border border-gray-800 flex justify-between items-center">
-                        <div><span class="font-bold text-gray-300">Brazilian GP</span></div>
-                        <div class="text-gray-400 text-[10px]">Nov 6–8</div>
-                    </div>
-                    <div class="p-2 rounded bg-gray-950/50 border border-gray-800 flex justify-between items-center">
-                        <div><span class="font-bold text-gray-300">Las Vegas GP</span></div>
-                        <div class="text-gray-400 text-[10px]">Nov 19–21</div>
-                    </div>
-                    <div class="p-2 rounded bg-gray-950/50 border border-gray-800 flex justify-between items-center">
-                        <div><span class="font-bold text-gray-300">Qatar GP</span></div>
-                        <div class="text-gray-400 text-[10px]">Nov 27–29</div>
-                    </div>
-                    <div class="p-2 rounded bg-gray-950/50 border border-gray-800 flex justify-between items-center">
-                        <div><span class="font-bold text-gray-300">Abu Dhabi GP</span></div>
-                        <div class="text-gray-400 text-[10px]">Dec 4–6</div>
-                    </div>
+                        <!-- R12 Dutch GP -->
+                        <div class="p-2 rounded bg-gray-950/50 border border-gray-800 flex justify-between items-center">
+                            <div>
+                                <div class="flex items-center gap-1 font-bold text-gray-300">
+                                    <span class="text-[10px] text-gray-500 font-normal">🇳🇱 R12</span>
+                                    <span>Dutch GP</span>
+                                    <span class="text-[9px] bg-amber-500/20 text-amber-300 font-semibold px-1 rounded border border-amber-500/30">⚡ Sprint</span>
+                                </div>
+                                <div class="text-gray-400 text-[9px]">Circuit Zandvoort</div>
+                            </div>
+                            <div class="text-gray-400 text-[10px]">21–23 Aug</div>
+                        </div>
 
+                        <!-- R13 Italian GP -->
+                        <div class="p-2 rounded bg-gray-950/50 border border-gray-800 flex justify-between items-center">
+                            <div>
+                                <div class="font-bold text-gray-300"><span class="text-[10px] text-gray-500 font-normal">🇮🇹 R13</span> Italian GP</div>
+                                <div class="text-gray-400 text-[9px]">Monza</div>
+                            </div>
+                            <div class="text-gray-400 text-[10px]">4–6 Sep</div>
+                        </div>
+
+                        <!-- R14 Spanish GP (Madrid) -->
+                        <div class="p-2 rounded bg-gray-950/50 border border-gray-800 flex justify-between items-center">
+                            <div>
+                                <div class="font-bold text-gray-300"><span class="text-[10px] text-gray-500 font-normal">🇪🇸 R14</span> Spanish GP</div>
+                                <div class="text-gray-400 text-[9px]">Madring (Madrid)</div>
+                            </div>
+                            <div class="text-gray-400 text-[10px]">11–13 Sep</div>
+                        </div>
+
+                        <!-- R15 Azerbaijan GP -->
+                        <div class="p-2 rounded bg-gray-950/50 border border-gray-800 flex justify-between items-center">
+                            <div>
+                                <div class="font-bold text-gray-300"><span class="text-[10px] text-gray-500 font-normal">🇦🇿 R15</span> Azerbaijan GP</div>
+                                <div class="text-gray-400 text-[9px]">Baku City Circuit</div>
+                            </div>
+                            <div class="text-gray-400 text-[10px]">24–26 Sep</div>
+                        </div>
+
+                        <!-- R16 Singapore GP -->
+                        <div class="p-2 rounded bg-gray-950/50 border border-gray-800 flex justify-between items-center">
+                            <div>
+                                <div class="flex items-center gap-1 font-bold text-gray-300">
+                                    <span class="text-[10px] text-gray-500 font-normal">🇸🇬 R16</span>
+                                    <span>Singapore GP</span>
+                                    <span class="text-[9px] bg-amber-500/20 text-amber-300 font-semibold px-1 rounded border border-amber-500/30">⚡ Sprint</span>
+                                </div>
+                                <div class="text-gray-400 text-[9px]">Marina Bay Street Circuit</div>
+                            </div>
+                            <div class="text-gray-400 text-[10px]">9–11 Oct</div>
+                        </div>
+
+                        <!-- R17 United States GP -->
+                        <div class="p-2 rounded bg-gray-950/50 border border-gray-800 flex justify-between items-center">
+                            <div>
+                                <div class="font-bold text-gray-300"><span class="text-[10px] text-gray-500 font-normal">🇺🇸 R17</span> United States GP</div>
+                                <div class="text-gray-400 text-[9px]">COTA (Austin)</div>
+                            </div>
+                            <div class="text-gray-400 text-[10px]">23–25 Oct</div>
+                        </div>
+
+                        <!-- R18 Mexico City GP -->
+                        <div class="p-2 rounded bg-gray-950/50 border border-gray-800 flex justify-between items-center">
+                            <div>
+                                <div class="font-bold text-gray-300"><span class="text-[10px] text-gray-500 font-normal">🇲🇽 R18</span> Mexico City GP</div>
+                                <div class="text-gray-400 text-[9px]">Autódromo Hermanos Rodríguez</div>
+                            </div>
+                            <div class="text-gray-400 text-[10px]">30 Oct–1 Nov</div>
+                        </div>
+
+                        <!-- R19 São Paulo GP -->
+                        <div class="p-2 rounded bg-gray-950/50 border border-gray-800 flex justify-between items-center">
+                            <div>
+                                <div class="font-bold text-gray-300"><span class="text-[10px] text-gray-500 font-normal">🇧🇷 R19</span> São Paulo GP</div>
+                                <div class="text-gray-400 text-[9px]">Interlagos</div>
+                            </div>
+                            <div class="text-gray-400 text-[10px]">6–8 Nov</div>
+                        </div>
+
+                        <!-- R20 Las Vegas GP -->
+                        <div class="p-2 rounded bg-gray-950/50 border border-gray-800 flex justify-between items-center">
+                            <div>
+                                <div class="font-bold text-gray-300"><span class="text-[10px] text-gray-500 font-normal">🇺🇸 R20</span> Las Vegas GP</div>
+                                <div class="text-gray-400 text-[9px]">Las Vegas Strip Circuit</div>
+                            </div>
+                            <div class="text-gray-400 text-[10px]">19–21 Nov</div>
+                        </div>
+
+                        <!-- R21 Qatar GP -->
+                        <div class="p-2 rounded bg-gray-950/50 border border-gray-800 flex justify-between items-center">
+                            <div>
+                                <div class="font-bold text-gray-300"><span class="text-[10px] text-gray-500 font-normal">🇶🇦 R21</span> Qatar GP</div>
+                                <div class="text-gray-400 text-[9px]">Lusail International Circuit</div>
+                            </div>
+                            <div class="text-gray-400 text-[10px]">27–29 Nov</div>
+                        </div>
+
+                        <!-- R22 Abu Dhabi GP -->
+                        <div class="p-2 rounded bg-gray-950/50 border border-gray-800 flex justify-between items-center">
+                            <div>
+                                <div class="font-bold text-gray-300"><span class="text-[10px] text-gray-500 font-normal">🇦🇪 R22</span> Abu Dhabi GP</div>
+                                <div class="text-gray-400 text-[9px]">Yas Marina Circuit</div>
+                            </div>
+                            <div class="text-gray-400 text-[10px]">4–6 Dec</div>
+                        </div>
+
+                    </div>
                 </div>
+
+                <!-- Circuit Information (Hungaroring) -->
+                <div class="bg-gray-900 rounded-xl border border-gray-800 p-3 space-y-2">
+                    <h3 class="font-bold text-white text-xs border-b border-gray-800 pb-1.5 flex items-center justify-between">
+                        <span>📍 Circuit Information</span>
+                        <span class="text-[10px] text-red-500 font-bold">Hungaroring</span>
+                    </h3>
+                    
+                    <div class="text-[10px] space-y-1">
+                        <div class="text-gray-300 font-semibold mb-1.5 flex items-center gap-1">
+                            <span>🇭🇺 Budapest, Hungary</span>
+                        </div>
+                        
+                        <div class="grid grid-cols-2 gap-1.5">
+                            <div class="bg-gray-950 p-1.5 rounded border border-gray-800">
+                                <span class="text-gray-400 block">📏 Length</span>
+                                <span class="font-bold text-white">4.381 km</span>
+                            </div>
+                            <div class="bg-gray-950 p-1.5 rounded border border-gray-800">
+                                <span class="text-gray-400 block">🏁 Laps</span>
+                                <span class="font-bold text-white">70</span>
+                            </div>
+                            <div class="bg-gray-950 p-1.5 rounded border border-gray-800">
+                                <span class="text-gray-400 block">📐 Corners</span>
+                                <span class="font-bold text-white">14</span>
+                            </div>
+                            <div class="bg-gray-950 p-1.5 rounded border border-gray-800">
+                                <span class="text-gray-400 block">🛣️ Race Distance</span>
+                                <span class="font-bold text-white">306.63 km</span>
+                            </div>
+                        </div>
+
+                        <div class="bg-gray-950 p-1.5 rounded border border-gray-800 flex justify-between items-center mt-1">
+                            <span class="text-gray-400">🏎️ First GP</span>
+                            <span class="font-bold text-white">1986</span>
+                        </div>
+
+                        <div class="bg-gray-950 p-1.5 rounded border border-gray-800 mt-1">
+                            <span class="text-gray-400 block">🎖️ Lap Record</span>
+                            <span class="font-bold text-red-400">1:16.627</span>
+                            <span class="text-[9px] text-gray-400 block">(Lewis Hamilton, 2020)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Weather & Tyre Info -->
+                <div class="bg-gray-900 rounded-xl border border-gray-800 p-3 space-y-2">
+                    <h3 class="font-bold text-white text-xs border-b border-gray-800 pb-1.5 flex items-center justify-between">
+                        <span>🌤️ Weather & Tyres</span>
+                    </h3>
+                    
+                    <!-- Weather Grid -->
+                    <div class="grid grid-cols-2 gap-1.5 text-[10px]">
+                        <div class="bg-gray-950 p-1.5 rounded border border-gray-800">
+                            <span class="text-gray-400 block">🌡️ Air Temp</span>
+                            <span class="font-bold text-white">~28°C</span>
+                        </div>
+                        <div class="bg-gray-950 p-1.5 rounded border border-gray-800">
+                            <span class="text-gray-400 block">🛣️ Track Temp</span>
+                            <span class="font-bold text-white">~43°C</span>
+                        </div>
+                        <div class="bg-gray-950 p-1.5 rounded border border-gray-800">
+                            <span class="text-gray-400 block">💨 Wind</span>
+                            <span class="font-bold text-white">Light</span>
+                        </div>
+                        <div class="bg-gray-950 p-1.5 rounded border border-gray-800">
+                            <span class="text-gray-400 block">🌧️ Rain Chance</span>
+                            <span class="font-bold text-green-400">Low</span>
+                        </div>
+                    </div>
+
+                    <!-- Tyres -->
+                    <div class="bg-gray-950 p-2 rounded border border-gray-800">
+                        <span class="text-gray-400 text-[10px] font-semibold block mb-1">🛞 Pirelli Compounds</span>
+                        <div class="flex justify-around text-[10px] font-bold">
+                            <span class="text-red-500">🔴 C5 Soft</span>
+                            <span class="text-yellow-400">🟡 C4 Medium</span>
+                            <span class="text-gray-200">⚪ C3 Hard</span>
+                        </div>
+                    </div>
+                </div>
+
             </div>
 
             <!-- MIDDLE COLUMN: Video Player & Controls -->
             <div class="order-1 lg:order-2 lg:col-span-6 flex flex-col">
                 <div class="bg-gray-900 rounded-xl border border-gray-800 overflow-hidden shadow-2xl">
-                    <div class="p-2.5 bg-gray-950 border-b border-gray-800 flex items-center justify-between">
+                    <div class="p-2.5 bg-gray-950 border-b border-gray-800 flex flex-col justify-between">
                         <div class="flex items-center space-x-2">
-                            <span class="relative flex h-2.5 w-2.5">
-                              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                              <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-red-500"></span>
-                            </span>
-                            <h2 id="current-channel-title" class="text-xs font-bold text-white">Sky Sport F1 UK</h2>
+                            <h2 id="channelTitle" class="text-xs font-bold text-white flex items-center gap-1.5">
+                                <i class="fa-solid fa-tv" style="color:var(--neon-glow);"></i>
+                                <span>Sky Sport F1 Germany</span>
+                            </h2>
                         </div>
-                        <span class="text-[10px] text-gray-400 bg-gray-800 px-2 py-0.5 rounded">Video.js (HLS)</span>
                     </div>
 
                     <!-- Video Container -->
@@ -165,274 +321,235 @@
                             controls 
                             preload="auto"
                             data-setup='{"fluid": true}'>
-                            <source src="https://view-1.niewiemy.xyz/strimcdn/1784809109/lp/tv/sky_sport_f1_uk/hls/index.m3u8?jwt=NDIuMTg4LjE0NC4yMDd8MTc4NDg1MjMwOXwvc3RyaW1jZG4vbHAvdHYvc2t5X3Nwb3J0X2YxX3VrL2hscy9pbmRleC5tM3U4fFVrb1N0SUdNdm96T3hCOGQ1c3NwVThCRUN3cFVCNF9DcUxBcUkzRjE4eTg" type="application/x-mpegURL">
+                            <source src="https://andro.226503.xyz/checklist/androstreamlivebs4.m3u8" type="application/x-mpegURL">
                         </video>
                     </div>
 
                     <!-- Stream Selector Buttons -->
-                    <div class="p-2.5 bg-gray-950 border-t border-gray-800 flex flex-col sm:flex-row items-center justify-between gap-2">
+                    <div class="p-2.5 bg-gray-950 border-t border-gray-800 flex flex-col gap-2">
                         <span class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">Select Stream:</span>
-                        <div class="flex items-center space-x-2 w-full sm:w-auto">
-                            <button id="btn-uk" onclick="changeStream('uk')" class="flex-1 sm:flex-none text-[11px] bg-red-600 hover:bg-red-700 text-white font-bold px-3 py-1.5 rounded-lg transition border border-red-500">
-                                Sky Sport F1 UK
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                            
+                            <!-- Sky Sport F1 Germany -->
+                            <button 
+                                onclick="playStream('https://andro.226503.xyz/checklist/androstreamlivebs4.m3u8', 'Sky Sport F1 Germany', '', this)" 
+                                class="mini-channel-item active text-left text-[11px] bg-gray-800 hover:bg-gray-700 text-white font-bold p-2 rounded-lg border border-gray-700 transition flex items-center justify-between">
+                                <span>Sky Sport F1 Germany</span>
+                                <i class="fa-solid fa-play text-xs text-red-500"></i>
                             </button>
-                            <button id="btn-tr" onclick="changeStream('tr')" class="flex-1 sm:flex-none text-[11px] bg-gray-800 hover:bg-gray-700 text-white font-bold px-3 py-1.5 rounded-lg border border-gray-700 transition">
-                                Sky Sport F1 Turkiye
+
+                            <!-- BeIN Sports TR 4 (Selcuk Proxy Enabled) -->
+                            <button 
+                                onclick="playStream('https://dga1op10s1u3leo.52c26716e2e875.click/live/selcukbeinsports4/playlist.m3u8', 'BeIN Sports TR 4', 'https://www.sporcafe6.xyz/', this)" 
+                                class="mini-channel-item text-left text-[11px] bg-gray-800 hover:bg-gray-700 text-white font-bold p-2 rounded-lg border border-gray-700 transition flex items-center justify-between">
+                                <span>BeIN Sports TR 4</span>
+                                <i class="fa-solid fa-play text-xs text-red-500"></i>
                             </button>
+
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- RIGHT COLUMN: Standings -->
-            <div class="order-3 lg:order-3 lg:col-span-3 bg-gray-900 rounded-xl border border-gray-800 p-3 h-[420px] lg:h-[540px] flex flex-col">
+            <!-- RIGHT COLUMN: Detailed Standings & Stats -->
+            <div class="order-3 lg:order-3 lg:col-span-3 bg-gray-900 rounded-xl border border-gray-800 p-3 h-[680px] flex flex-col">
                 
-                <!-- Tab Controls -->
-                <div class="flex bg-gray-950 p-1 rounded-lg border border-gray-800 mb-2.5">
-                    <button id="tab-drivers" onclick="switchStandings('drivers')" class="flex-1 py-1 text-center font-bold text-[11px] rounded bg-red-600 text-white transition">
-                        Drivers
-                    </button>
-                    <button id="tab-constructors" onclick="switchStandings('constructors')" class="flex-1 py-1 text-center font-bold text-[11px] text-gray-400 hover:text-white transition">
-                        Constructors
-                    </button>
+                <!-- Tab Controls Grid -->
+                <div class="grid grid-cols-3 gap-1 bg-gray-950 p-1 rounded-lg border border-gray-800 mb-2.5 text-[10px]">
+                    <button onclick="showTab('drivers')" id="tab-drivers" class="tab-btn active py-1 text-center font-bold rounded text-gray-400 hover:text-white transition">Drivers</button>
+                    <button onclick="showTab('constructors')" id="tab-constructors" class="tab-btn py-1 text-center font-bold rounded text-gray-400 hover:text-white transition">Teams</button>
+                    <button onclick="showTab('sprint')" id="tab-sprint" class="tab-btn py-1 text-center font-bold rounded text-gray-400 hover:text-white transition">⚡ Sprint</button>
+                    <button onclick="showTab('stats')" id="tab-stats" class="tab-btn py-1 text-center font-bold rounded text-gray-400 hover:text-white transition">🏆 Stats</button>
+                    <button onclick="showTab('form')" id="tab-form" class="tab-btn py-1 text-center font-bold rounded text-gray-400 hover:text-white transition col-span-2">📈 Form (Last 5)</button>
                 </div>
 
-                <!-- Drivers' Standings Content -->
-                <div id="drivers-standings" class="overflow-y-auto space-y-1 flex-grow pr-1 custom-scrollbar">
+                <!-- 1. Drivers' Championship (20 Pemandu Lengkap) -->
+                <div id="content-drivers" class="tab-content overflow-y-auto space-y-1 flex-grow pr-1 custom-scrollbar">
                     <div class="flex justify-between items-center p-1.5 bg-gray-950/60 rounded border border-gray-800">
-                        <div class="flex items-center gap-2">
-                            <span class="font-extrabold text-red-500 w-4 text-center">1</span>
-                            <div><div class="font-bold text-white">A. Kimi Antonelli</div><div class="text-[10px] text-gray-400">Mercedes</div></div>
-                        </div>
+                        <div class="flex items-center gap-2"><span class="font-extrabold text-red-500 w-3">1</span><div><div class="font-bold text-white">Kimi Antonelli</div><div class="text-[9px] text-gray-400">Mercedes</div></div></div>
                         <span class="font-bold text-gray-200">204 pts</span>
                     </div>
                     <div class="flex justify-between items-center p-1.5 bg-gray-950/60 rounded border border-gray-800">
-                        <div class="flex items-center gap-2">
-                            <span class="font-extrabold text-gray-300 w-4 text-center">2</span>
-                            <div><div class="font-bold text-white">L. Hamilton</div><div class="text-[10px] text-gray-400">Ferrari</div></div>
-                        </div>
+                        <div class="flex items-center gap-2"><span class="font-extrabold text-gray-300 w-3">2</span><div><div class="font-bold text-white">Lewis Hamilton</div><div class="text-[9px] text-gray-400">Ferrari</div></div></div>
                         <span class="font-bold text-gray-200">159 pts</span>
                     </div>
                     <div class="flex justify-between items-center p-1.5 bg-gray-950/60 rounded border border-gray-800">
-                        <div class="flex items-center gap-2">
-                            <span class="font-extrabold text-amber-600 w-4 text-center">3</span>
-                            <div><div class="font-bold text-white">G. Russell</div><div class="text-[10px] text-gray-400">Mercedes</div></div>
-                        </div>
+                        <div class="flex items-center gap-2"><span class="font-extrabold text-amber-600 w-3">3</span><div><div class="font-bold text-white">George Russell</div><div class="text-[9px] text-gray-400">Mercedes</div></div></div>
                         <span class="font-bold text-gray-200">154 pts</span>
                     </div>
                     <div class="flex justify-between items-center p-1.5 bg-gray-950/40 rounded border border-gray-800/60">
-                        <div class="flex items-center gap-2">
-                            <span class="font-semibold text-gray-400 w-4 text-center">4</span>
-                            <div><div class="font-medium text-gray-200">C. Leclerc</div><div class="text-[10px] text-gray-400">Ferrari</div></div>
-                        </div>
+                        <div class="flex items-center gap-2"><span class="font-semibold text-gray-400 w-3">4</span><div><div class="font-medium text-gray-200">Charles Leclerc</div><div class="text-[9px] text-gray-400">Ferrari</div></div></div>
                         <span class="font-semibold text-gray-300">126 pts</span>
                     </div>
                     <div class="flex justify-between items-center p-1.5 bg-gray-950/40 rounded border border-gray-800/60">
-                        <div class="flex items-center gap-2">
-                            <span class="font-semibold text-gray-400 w-4 text-center">5</span>
-                            <div><div class="font-medium text-gray-200">L. Norris</div><div class="text-[10px] text-gray-400">McLaren</div></div>
-                        </div>
+                        <div class="flex items-center gap-2"><span class="font-semibold text-gray-400 w-3">5</span><div><div class="font-medium text-gray-200">Lando Norris</div><div class="text-[9px] text-gray-400">McLaren</div></div></div>
                         <span class="font-semibold text-gray-300">103 pts</span>
                     </div>
                     <div class="flex justify-between items-center p-1.5 bg-gray-950/40 rounded border border-gray-800/60">
-                        <div class="flex items-center gap-2">
-                            <span class="font-semibold text-gray-400 w-4 text-center">6</span>
-                            <div><div class="font-medium text-gray-200">O. Piastri</div><div class="text-[10px] text-gray-400">McLaren</div></div>
-                        </div>
+                        <div class="flex items-center gap-2"><span class="font-semibold text-gray-400 w-3">6</span><div><div class="font-medium text-gray-200">Oscar Piastri</div><div class="text-[9px] text-gray-400">McLaren</div></div></div>
                         <span class="font-semibold text-gray-300">92 pts</span>
                     </div>
                     <div class="flex justify-between items-center p-1.5 bg-gray-950/40 rounded border border-gray-800/60">
-                        <div class="flex items-center gap-2">
-                            <span class="font-semibold text-gray-400 w-4 text-center">7</span>
-                            <div><div class="font-medium text-gray-200">M. Verstappen</div><div class="text-[10px] text-gray-400">Red Bull</div></div>
-                        </div>
+                        <div class="flex items-center gap-2"><span class="font-semibold text-gray-400 w-3">7</span><div><div class="font-medium text-gray-200">Max Verstappen</div><div class="text-[9px] text-gray-400">Red Bull</div></div></div>
                         <span class="font-semibold text-gray-300">91 pts</span>
                     </div>
                     <div class="flex justify-between items-center p-1.5 bg-gray-950/40 rounded border border-gray-800/60">
-                        <div class="flex items-center gap-2">
-                            <span class="font-semibold text-gray-400 w-4 text-center">8</span>
-                            <div><div class="font-medium text-gray-200">I. Hadjar</div><div class="text-[10px] text-gray-400">Red Bull</div></div>
-                        </div>
-                        <span class="font-semibold text-gray-300">60 pts</span>
+                        <div class="flex items-center gap-2"><span class="font-semibold text-gray-400 w-3">8</span><div><div class="font-medium text-gray-200">Isack Hadjar</div><div class="text-[9px] text-gray-400">Racing Bulls</div></div></div>
+                        <span class="font-semibold text-gray-300">51 pts</span>
                     </div>
                     <div class="flex justify-between items-center p-1.5 bg-gray-950/40 rounded border border-gray-800/60">
-                        <div class="flex items-center gap-2">
-                            <span class="font-semibold text-gray-400 w-4 text-center">9</span>
-                            <div><div class="font-medium text-gray-200">P. Gasly</div><div class="text-[10px] text-gray-400">Alpine</div></div>
-                        </div>
-                        <span class="font-semibold text-gray-300">42 pts</span>
-                    </div>
-                    <div class="flex justify-between items-center p-1.5 bg-gray-950/40 rounded border border-gray-800/60">
-                        <div class="flex items-center gap-2">
-                            <span class="font-semibold text-gray-400 w-4 text-center">10</span>
-                            <div><div class="font-medium text-gray-200">L. Lawson</div><div class="text-[10px] text-gray-400">Racing Bulls</div></div>
-                        </div>
+                        <div class="flex items-center gap-2"><span class="font-semibold text-gray-400 w-3">9</span><div><div class="font-medium text-gray-200">Pierre Gasly</div><div class="text-[9px] text-gray-400">Alpine</div></div></div>
                         <span class="font-semibold text-gray-300">39 pts</span>
                     </div>
                     <div class="flex justify-between items-center p-1.5 bg-gray-950/40 rounded border border-gray-800/60">
-                        <div class="flex items-center gap-2">
-                            <span class="font-semibold text-gray-400 w-4 text-center">11</span>
-                            <div><div class="font-medium text-gray-200">A. Lindblad</div><div class="text-[10px] text-gray-400">Racing Bulls</div></div>
-                        </div>
-                        <span class="font-semibold text-gray-300">22 pts</span>
+                        <div class="flex items-center gap-2"><span class="font-semibold text-gray-400 w-3">10</span><div><div class="font-medium text-gray-200">Oliver Bearman</div><div class="text-[9px] text-gray-400">Haas</div></div></div>
+                        <span class="font-semibold text-gray-300">21 pts</span>
                     </div>
                     <div class="flex justify-between items-center p-1.5 bg-gray-950/40 rounded border border-gray-800/60">
-                        <div class="flex items-center gap-2">
-                            <span class="font-semibold text-gray-400 w-4 text-center">12</span>
-                            <div><div class="font-medium text-gray-200">F. Colapinto</div><div class="text-[10px] text-gray-400">Alpine</div></div>
-                        </div>
-                        <span class="font-semibold text-gray-300">19 pts</span>
+                        <div class="flex items-center gap-2"><span class="font-semibold text-gray-400 w-3">11</span><div><div class="font-medium text-gray-200">Carlos Sainz</div><div class="text-[9px] text-gray-400">Williams</div></div></div>
+                        <span class="font-semibold text-gray-300">11 pts</span>
                     </div>
                     <div class="flex justify-between items-center p-1.5 bg-gray-950/40 rounded border border-gray-800/60">
-                        <div class="flex items-center gap-2">
-                            <span class="font-semibold text-gray-400 w-4 text-center">13</span>
-                            <div><div class="font-medium text-gray-200">O. Bearman</div><div class="text-[10px] text-gray-400">Haas</div></div>
-                        </div>
-                        <span class="font-semibold text-gray-300">18 pts</span>
-                    </div>
-                    <div class="flex justify-between items-center p-1.5 bg-gray-950/40 rounded border border-gray-800/60">
-                        <div class="flex items-center gap-2">
-                            <span class="font-semibold text-gray-400 w-4 text-center">14</span>
-                            <div><div class="font-medium text-gray-200">G. Bortoleto</div><div class="text-[10px] text-gray-400">Audi</div></div>
-                        </div>
+                        <div class="flex items-center gap-2"><span class="font-semibold text-gray-400 w-3">12</span><div><div class="font-medium text-gray-200">Jack Doohan</div><div class="text-[9px] text-gray-400">Alpine</div></div></div>
                         <span class="font-semibold text-gray-300">10 pts</span>
                     </div>
                     <div class="flex justify-between items-center p-1.5 bg-gray-950/40 rounded border border-gray-800/60">
-                        <div class="flex items-center gap-2">
-                            <span class="font-semibold text-gray-400 w-4 text-center">15</span>
-                            <div><div class="font-medium text-gray-200">C. Sainz</div><div class="text-[10px] text-gray-400">Williams</div></div>
-                        </div>
-                        <span class="font-semibold text-gray-300">6 pts</span>
+                        <div class="flex items-center gap-2"><span class="font-semibold text-gray-400 w-3">13</span><div><div class="font-medium text-gray-200">Nico Hülkenberg</div><div class="text-[9px] text-gray-400">Audi</div></div></div>
+                        <span class="font-semibold text-gray-300">10 pts</span>
                     </div>
                     <div class="flex justify-between items-center p-1.5 bg-gray-950/40 rounded border border-gray-800/60">
-                        <div class="flex items-center gap-2">
-                            <span class="font-semibold text-gray-400 w-4 text-center">16</span>
-                            <div><div class="font-medium text-gray-200">A. Albon</div><div class="text-[10px] text-gray-400">Williams</div></div>
-                        </div>
-                        <span class="font-semibold text-gray-300">5 pts</span>
+                        <div class="flex items-center gap-2"><span class="font-semibold text-gray-400 w-3">14</span><div><div class="font-medium text-gray-200">Yuki Tsunoda</div><div class="text-[9px] text-gray-400">Red Bull</div></div></div>
+                        <span class="font-semibold text-gray-300">8 pts</span>
                     </div>
                     <div class="flex justify-between items-center p-1.5 bg-gray-950/40 rounded border border-gray-800/60">
-                        <div class="flex items-center gap-2">
-                            <span class="font-semibold text-gray-400 w-4 text-center">17</span>
-                            <div><div class="font-medium text-gray-200">E. Ocon</div><div class="text-[10px] text-gray-400">Haas</div></div>
-                        </div>
-                        <span class="font-semibold text-gray-300">3 pts</span>
-                    </div>
-                    <div class="flex justify-between items-center p-1.5 bg-gray-950/40 rounded border border-gray-800/60">
-                        <div class="flex items-center gap-2">
-                            <span class="font-semibold text-gray-400 w-4 text-center">18</span>
-                            <div><div class="font-medium text-gray-200">F. Alonso</div><div class="text-[10px] text-gray-400">Aston Martin</div></div>
-                        </div>
+                        <div class="flex items-center gap-2"><span class="font-semibold text-gray-400 w-3">15</span><div><div class="font-medium text-gray-200">Fernando Alonso</div><div class="text-[9px] text-gray-400">Aston Martin</div></div></div>
                         <span class="font-semibold text-gray-300">1 pt</span>
                     </div>
                     <div class="flex justify-between items-center p-1.5 bg-gray-950/40 rounded border border-gray-800/60">
-                        <div class="flex items-center gap-2">
-                            <span class="font-semibold text-gray-400 w-4 text-center">19</span>
-                            <div><div class="font-medium text-gray-200">N. Hülkenberg</div><div class="text-[10px] text-gray-400">Audi</div></div>
-                        </div>
+                        <div class="flex items-center gap-2"><span class="font-semibold text-gray-400 w-3">16</span><div><div class="font-medium text-gray-200">Esteban Ocon</div><div class="text-[9px] text-gray-400">Haas</div></div></div>
                         <span class="font-semibold text-gray-300">0 pts</span>
                     </div>
                     <div class="flex justify-between items-center p-1.5 bg-gray-950/40 rounded border border-gray-800/60">
-                        <div class="flex items-center gap-2">
-                            <span class="font-semibold text-gray-400 w-4 text-center">20</span>
-                            <div><div class="font-medium text-gray-200">V. Bottas</div><div class="text-[10px] text-gray-400">Cadillac</div></div>
-                        </div>
+                        <div class="flex items-center gap-2"><span class="font-semibold text-gray-400 w-3">17</span><div><div class="font-medium text-gray-200">Franco Colapinto</div><div class="text-[9px] text-gray-400">Audi</div></div></div>
                         <span class="font-semibold text-gray-300">0 pts</span>
                     </div>
                     <div class="flex justify-between items-center p-1.5 bg-gray-950/40 rounded border border-gray-800/60">
-                        <div class="flex items-center gap-2">
-                            <span class="font-semibold text-gray-400 w-4 text-center">21</span>
-                            <div><div class="font-medium text-gray-200">S. Pérez</div><div class="text-[10px] text-gray-400">Cadillac</div></div>
-                        </div>
+                        <div class="flex items-center gap-2"><span class="font-semibold text-gray-400 w-3">18</span><div><div class="font-medium text-gray-200">Lance Stroll</div><div class="text-[9px] text-gray-400">Aston Martin</div></div></div>
                         <span class="font-semibold text-gray-300">0 pts</span>
                     </div>
                     <div class="flex justify-between items-center p-1.5 bg-gray-950/40 rounded border border-gray-800/60">
-                        <div class="flex items-center gap-2">
-                            <span class="font-semibold text-gray-400 w-4 text-center">22</span>
-                            <div><div class="font-medium text-gray-200">L. Stroll</div><div class="text-[10px] text-gray-400">Aston Martin</div></div>
-                        </div>
+                        <div class="flex items-center gap-2"><span class="font-semibold text-gray-400 w-3">19</span><div><div class="font-medium text-gray-200">Sergio Pérez</div><div class="text-[9px] text-gray-400">Cadillac</div></div></div>
+                        <span class="font-semibold text-gray-300">0 pts</span>
+                    </div>
+                    <div class="flex justify-between items-center p-1.5 bg-gray-950/40 rounded border border-gray-800/60">
+                        <div class="flex items-center gap-2"><span class="font-semibold text-gray-400 w-3">20</span><div><div class="font-medium text-gray-200">Valtteri Bottas</div><div class="text-[9px] text-gray-400">Cadillac</div></div></div>
                         <span class="font-semibold text-gray-300">0 pts</span>
                     </div>
                 </div>
 
-                <!-- Constructors' Standings Content -->
-                <div id="constructors-standings" class="hidden overflow-y-auto space-y-1 flex-grow pr-1 custom-scrollbar">
-                    <div class="flex justify-between items-center p-2 bg-gray-950/60 rounded border border-gray-800">
-                        <div class="flex items-center gap-2">
-                            <span class="font-extrabold text-red-500 w-4 text-center">1</span>
-                            <span class="font-bold text-white">Mercedes</span>
-                        </div>
-                        <span class="font-bold text-gray-200">358 pts</span>
+                <!-- 2. Constructors' Championship (11 Pasukan Lengkap) -->
+                <div id="content-constructors" class="tab-content hidden overflow-y-auto space-y-1 flex-grow pr-1 custom-scrollbar">
+                    <div class="p-1.5 bg-red-950/30 border border-red-800/50 rounded mb-2 text-[10px] text-red-300">
+                        ℹ️ Mercedes telah memenangi 8 daripada 10 perlumbaan musim ini.
                     </div>
-                    <div class="flex justify-between items-center p-2 bg-gray-950/60 rounded border border-gray-800">
-                        <div class="flex items-center gap-2">
-                            <span class="font-extrabold text-gray-300 w-4 text-center">2</span>
-                            <span class="font-bold text-white">Ferrari</span>
+                    <div class="flex justify-between items-center p-2 bg-gray-950/60 rounded border border-gray-800"><div class="flex items-center gap-2"><span class="font-extrabold text-red-500 w-4">1</span><span class="font-bold text-white">Mercedes</span></div><span class="font-bold text-gray-200">358 pts</span></div>
+                    <div class="flex justify-between items-center p-2 bg-gray-950/60 rounded border border-gray-800"><div class="flex items-center gap-2"><span class="font-extrabold text-gray-300 w-4">2</span><span class="font-bold text-white">Ferrari</span></div><span class="font-bold text-gray-200">285 pts</span></div>
+                    <div class="flex justify-between items-center p-2 bg-gray-950/60 rounded border border-gray-800"><div class="flex items-center gap-2"><span class="font-extrabold text-amber-600 w-4">3</span><span class="font-bold text-white">McLaren</span></div><span class="font-bold text-gray-200">195 pts</span></div>
+                    <div class="flex justify-between items-center p-2 bg-gray-950/40 rounded border border-gray-800/60"><div class="flex items-center gap-2"><span class="font-semibold text-gray-400 w-4">4</span><span class="font-medium text-gray-200">Red Bull Racing</span></div><span class="font-semibold text-gray-300">151 pts</span></div>
+                    <div class="flex justify-between items-center p-2 bg-gray-950/40 rounded border border-gray-800/60"><div class="flex items-center gap-2"><span class="font-semibold text-gray-400 w-4">5</span><span class="font-medium text-gray-200">Alpine</span></div><span class="font-semibold text-gray-300">61 pts</span></div>
+                    <div class="flex justify-between items-center p-2 bg-gray-950/40 rounded border border-gray-800/60"><div class="flex items-center gap-2"><span class="font-semibold text-gray-400 w-4">6</span><span class="font-medium text-gray-200">Racing Bulls</span></div><span class="font-semibold text-gray-300">6 pts</span></div>
+                    <div class="flex justify-between items-center p-2 bg-gray-950/40 rounded border border-gray-800/60"><div class="flex items-center gap-2"><span class="font-semibold text-gray-400 w-4">7</span><span class="font-medium text-gray-200">Haas</span></div><span class="font-semibold text-gray-300">21 pts</span></div>
+                    <div class="flex justify-between items-center p-2 bg-gray-950/40 rounded border border-gray-800/60"><div class="flex items-center gap-2"><span class="font-semibold text-gray-400 w-4">8</span><span class="font-medium text-gray-200">Williams</span></div><span class="font-semibold text-gray-300">11 pts</span></div>
+                    <div class="flex justify-between items-center p-2 bg-gray-950/40 rounded border border-gray-800/60"><div class="flex items-center gap-2"><span class="font-semibold text-gray-400 w-4">9</span><span class="font-medium text-gray-200">Audi</span></div><span class="font-semibold text-gray-300">10 pts</span></div>
+                    <div class="flex justify-between items-center p-2 bg-gray-950/40 rounded border border-gray-800/60"><div class="flex items-center gap-2"><span class="font-semibold text-gray-400 w-4">10</span><span class="font-medium text-gray-200">Aston Martin</span></div><span class="font-semibold text-gray-300">1 pt</span></div>
+                    <div class="flex justify-between items-center p-2 bg-gray-950/40 rounded border border-gray-800/60"><div class="flex items-center gap-2"><span class="font-semibold text-gray-400 w-4">11</span><span class="font-medium text-gray-200">Cadillac</span></div><span class="font-semibold text-gray-300">0 pts</span></div>
+                </div>
+
+                <!-- 3. Sprint Standings (10 Pemandu Lengkap) -->
+                <div id="content-sprint" class="tab-content hidden overflow-y-auto space-y-1 flex-grow pr-1 custom-scrollbar">
+                    <div class="flex justify-between items-center p-1.5 bg-gray-950/60 rounded border border-gray-800"><span class="font-bold text-white">1. Kimi Antonelli</span><span class="font-bold text-red-400">28 pts</span></div>
+                    <div class="flex justify-between items-center p-1.5 bg-gray-950/60 rounded border border-gray-800"><span class="font-bold text-white">2. George Russell</span><span class="font-bold text-gray-200">20 pts</span></div>
+                    <div class="flex justify-between items-center p-1.5 bg-gray-950/60 rounded border border-gray-800"><span class="font-bold text-white">3. Lewis Hamilton</span><span class="font-bold text-gray-200">19 pts</span></div>
+                    <div class="flex justify-between items-center p-1.5 bg-gray-950/40 rounded border border-gray-800/60"><span class="text-gray-300">4. Lando Norris</span><span class="text-gray-300">17 pts</span></div>
+                    <div class="flex justify-between items-center p-1.5 bg-gray-950/40 rounded border border-gray-800/60"><span class="text-gray-300">5. Oscar Piastri</span><span class="text-gray-300">16 pts</span></div>
+                    <div class="flex justify-between items-center p-1.5 bg-gray-950/40 rounded border border-gray-800/60"><span class="text-gray-300">6. Max Verstappen</span><span class="text-gray-300">15 pts</span></div>
+                    <div class="flex justify-between items-center p-1.5 bg-gray-950/40 rounded border border-gray-800/60"><span class="text-gray-300">7. Charles Leclerc</span><span class="text-gray-300">13 pts</span></div>
+                    <div class="flex justify-between items-center p-1.5 bg-gray-950/40 rounded border border-gray-800/60"><span class="text-gray-300">8. Isack Hadjar</span><span class="text-gray-300">7 pts</span></div>
+                    <div class="flex justify-between items-center p-1.5 bg-gray-950/40 rounded border border-gray-800/60"><span class="text-gray-300">9. Pierre Gasly</span><span class="text-gray-300">4 pts</span></div>
+                    <div class="flex justify-between items-center p-1.5 bg-gray-950/40 rounded border border-gray-800/60"><span class="text-gray-300">10. Oliver Bearman</span><span class="text-gray-300">2 pts</span></div>
+                </div>
+
+                <!-- 4. Stats (Wins, Poles, Laps, Podiums Lengkap) -->
+                <div id="content-stats" class="tab-content hidden overflow-y-auto space-y-3 flex-grow pr-1 custom-scrollbar text-[10px]">
+                    <!-- Wins -->
+                    <div>
+                        <span class="font-bold text-red-400 block mb-1">🥇 Most Wins</span>
+                        <div class="space-y-0.5">
+                            <div class="flex justify-between bg-gray-950 p-1 rounded"><span>Kimi Antonelli</span><span class="font-bold">6</span></div>
+                            <div class="flex justify-between bg-gray-950 p-1 rounded"><span>Lewis Hamilton</span><span class="font-bold">2</span></div>
+                            <div class="flex justify-between bg-gray-950 p-1 rounded"><span>George Russell</span><span class="font-bold">2</span></div>
+                            <div class="flex justify-between bg-gray-950 p-1 rounded"><span>Charles Leclerc</span><span class="font-bold">1</span></div>
                         </div>
-                        <span class="font-bold text-gray-200">285 pts</span>
                     </div>
-                    <div class="flex justify-between items-center p-2 bg-gray-950/60 rounded border border-gray-800">
-                        <div class="flex items-center gap-2">
-                            <span class="font-extrabold text-amber-600 w-4 text-center">3</span>
-                            <span class="font-bold text-white">McLaren</span>
+
+                    <!-- Poles -->
+                    <div>
+                        <span class="font-bold text-yellow-400 block mb-1">🏆 Pole Positions</span>
+                        <div class="space-y-0.5">
+                            <div class="flex justify-between bg-gray-950 p-1 rounded"><span>Kimi Antonelli</span><span class="font-bold">6</span></div>
+                            <div class="flex justify-between bg-gray-950 p-1 rounded"><span>George Russell</span><span class="font-bold">2</span></div>
+                            <div class="flex justify-between bg-gray-950 p-1 rounded"><span>Lewis Hamilton</span><span class="font-bold">1</span></div>
+                            <div class="flex justify-between bg-gray-950 p-1 rounded"><span>Charles Leclerc</span><span class="font-bold">1</span></div>
                         </div>
-                        <span class="font-bold text-gray-200">195 pts</span>
                     </div>
-                    <div class="flex justify-between items-center p-2 bg-gray-950/40 rounded border border-gray-800/60">
-                        <div class="flex items-center gap-2">
-                            <span class="font-semibold text-gray-400 w-4 text-center">4</span>
-                            <span class="font-medium text-gray-200">Red Bull Racing</span>
+
+                    <!-- Fastest Laps -->
+                    <div>
+                        <span class="font-bold text-purple-400 block mb-1">🚀 Fastest Laps</span>
+                        <div class="space-y-0.5">
+                            <div class="flex justify-between bg-gray-950 p-1 rounded"><span>Kimi Antonelli</span><span class="font-bold">3</span></div>
+                            <div class="flex justify-between bg-gray-950 p-1 rounded"><span>Lando Norris</span><span class="font-bold">2</span></div>
+                            <div class="flex justify-between bg-gray-950 p-1 rounded"><span>Max Verstappen</span><span class="font-bold">2</span></div>
+                            <div class="flex justify-between bg-gray-950 p-1 rounded"><span>Lewis Hamilton / Leclerc / Russell</span><span class="font-bold">1 each</span></div>
                         </div>
-                        <span class="font-semibold text-gray-300">151 pts</span>
                     </div>
-                    <div class="flex justify-between items-center p-2 bg-gray-950/40 rounded border border-gray-800/60">
-                        <div class="flex items-center gap-2">
-                            <span class="font-semibold text-gray-400 w-4 text-center">5</span>
-                            <span class="font-medium text-gray-200">Alpine</span>
+
+                    <!-- Podiums -->
+                    <div>
+                        <span class="font-bold text-blue-400 block mb-1">🏅 Podiums</span>
+                        <div class="space-y-0.5">
+                            <div class="flex justify-between bg-gray-950 p-1 rounded"><span>Kimi Antonelli</span><span class="font-bold">9</span></div>
+                            <div class="flex justify-between bg-gray-950 p-1 rounded"><span>Lewis Hamilton</span><span class="font-bold">6</span></div>
+                            <div class="flex justify-between bg-gray-950 p-1 rounded"><span>George Russell</span><span class="font-bold">5</span></div>
+                            <div class="flex justify-between bg-gray-950 p-1 rounded"><span>Charles Leclerc</span><span class="font-bold">5</span></div>
+                            <div class="flex justify-between bg-gray-950 p-1 rounded"><span>Max Verstappen</span><span class="font-bold">3</span></div>
+                            <div class="flex justify-between bg-gray-950 p-1 rounded"><span>Oscar Piastri / Lando Norris</span><span class="font-bold">2 each</span></div>
+                            <div class="flex justify-between bg-gray-950 p-1 rounded"><span>Isack Hadjar</span><span class="font-bold">1</span></div>
                         </div>
-                        <span class="font-semibold text-gray-300">61 pts</span>
                     </div>
-                    <div class="flex justify-between items-center p-2 bg-gray-950/40 rounded border border-gray-800/60">
-                        <div class="flex items-center gap-2">
-                            <span class="font-semibold text-gray-400 w-4 text-center">6</span>
-                            <span class="font-medium text-gray-200">Racing Bulls</span>
-                        </div>
-                        <span class="font-semibold text-gray-300">61 pts</span>
+                </div>
+
+                <!-- 5. Last 5 Race Form (Lengkap) -->
+                <div id="content-form" class="tab-content hidden overflow-y-auto space-y-1.5 flex-grow pr-1 custom-scrollbar text-[10px]">
+                    <div class="p-2 bg-gray-950 rounded border border-gray-800">
+                        <div class="font-bold text-white mb-0.5">Kimi Antonelli</div>
+                        <div class="text-sm">🥇 🥇 🥇 🥇 🥇</div>
                     </div>
-                    <div class="flex justify-between items-center p-2 bg-gray-950/40 rounded border border-gray-800/60">
-                        <div class="flex items-center gap-2">
-                            <span class="font-semibold text-gray-400 w-4 text-center">7</span>
-                            <span class="font-medium text-gray-200">Haas F1 Team</span>
-                        </div>
-                        <span class="font-semibold text-gray-300">21 pts</span>
+                    <div class="p-2 bg-gray-950 rounded border border-gray-800">
+                        <div class="font-bold text-white mb-0.5">Lewis Hamilton</div>
+                        <div class="text-sm">🥇 🥈 4️⃣ 🥈 🥈</div>
                     </div>
-                    <div class="flex justify-between items-center p-2 bg-gray-950/40 rounded border border-gray-800/60">
-                        <div class="flex items-center gap-2">
-                            <span class="font-semibold text-gray-400 w-4 text-center">8</span>
-                            <span class="font-medium text-gray-200">Williams</span>
-                        </div>
-                        <span class="font-semibold text-gray-300">11 pts</span>
+                    <div class="p-2 bg-gray-950 rounded border border-gray-800">
+                        <div class="font-bold text-white mb-0.5">George Russell</div>
+                        <div class="text-sm">🥈 🥉 🥇 DNF 🥉</div>
                     </div>
-                    <div class="flex justify-between items-center p-2 bg-gray-950/40 rounded border border-gray-800/60">
-                        <div class="flex items-center gap-2">
-                            <span class="font-semibold text-gray-400 w-4 text-center">9</span>
-                            <span class="font-medium text-gray-200">Audi</span>
-                        </div>
-                        <span class="font-semibold text-gray-300">10 pts</span>
+                    <div class="p-2 bg-gray-950 rounded border border-gray-800">
+                        <div class="font-bold text-white mb-0.5">Charles Leclerc</div>
+                        <div class="text-sm">🥉 4️⃣ 🥈 🥇 🥈</div>
                     </div>
-                    <div class="flex justify-between items-center p-2 bg-gray-950/40 rounded border border-gray-800/60">
-                        <div class="flex items-center gap-2">
-                            <span class="font-semibold text-gray-400 w-4 text-center">10</span>
-                            <span class="font-medium text-gray-200">Aston Martin</span>
-                        </div>
-                        <span class="font-semibold text-gray-300">1 pt</span>
-                    </div>
-                    <div class="flex justify-between items-center p-2 bg-gray-950/40 rounded border border-gray-800/60">
-                        <div class="flex items-center gap-2">
-                            <span class="font-semibold text-gray-400 w-4 text-center">11</span>
-                            <span class="font-medium text-gray-200">Cadillac</span>
-                        </div>
-                        <span class="font-semibold text-gray-300">0 pts</span>
+                    <div class="p-2 bg-gray-950 rounded border border-gray-800">
+                        <div class="font-bold text-white mb-0.5">Max Verstappen</div>
+                        <div class="text-sm">🥉 5️⃣ 4️⃣ 🥉 🥉</div>
                     </div>
                 </div>
 
@@ -446,60 +563,60 @@
         <p>&copy; 2026 F1 Live Streaming Hub by Sports Hub Official. All rights reserved.</p>
     </footer>
 
-    <!-- JavaScript Controls -->
+    <!-- Video.js JS Library -->
+    <script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
+
+    <!-- JAVASCRIPT LOGIC -->
     <script>
-        var player = videojs('f1-player');
+        // Init Player
+        const player = videojs('f1-player');
 
-        const streams = {
-            uk: {
-                title: "Sky Sport F1 UK",
-                url: "https://view-1.niewiemy.xyz/strimcdn/1784809109/lp/tv/sky_sport_f1_uk/hls/index.m3u8?jwt=NDIuMTg4LjE0NC4yMDd8MTc4NDg1MjMwOXwvc3RyaW1jZG4vbHAvdHYvc2t5X3Nwb3J0X2YxX3VrL2hscy9pbmRleC5tM3U4fFVrb1N0SUdNdm96T3hCOGQ1c3NwVThCRUN3cFVCNF9DcUxBcUkzRjE4eTg"
-            },
-            tr: {
-                title: "Sky Sport F1 Turkiye",
-                url: "https://andro.226503.xyz/checklist/androstreamlivebs4.m3u8"
+        // TETAPAN CORS PROXY WORKER
+        const CORS_PROXY = 'https://bold-sky-a86c.yusoff-rohaidee.workers.dev/';
+
+        const channelTitle = document.getElementById('channelTitle');
+
+        // Play Stream - GUNAKAN PROXY UNTUK SELCUK SPORTS DAN BEIN SPORTS FRANCE 1
+        function playStream(originalUrl, name, referrer, element) {
+            if (typeof referrer !== 'string' || (!referrer.startsWith('http') && element === undefined)) {
+                element = referrer;
+                referrer = null;
             }
-        };
 
-        function changeStream(key) {
-            if (streams[key]) {
-                document.getElementById('current-channel-title').innerText = streams[key].title;
-                player.src({
-                    src: streams[key].url,
-                    type: 'application/x-mpegURL'
-                });
-                player.play();
+            document.querySelectorAll('.mini-channel-item').forEach(el => el.classList.remove('active'));
+            if(element) element.classList.add('active');
 
-                const btnUk = document.getElementById('btn-uk');
-                const btnTr = document.getElementById('btn-tr');
+            channelTitle.innerHTML = `<i class="fa-solid fa-tv" style="color:var(--neon-glow);"></i> <span>Sedang Dimainkan: <strong>${name}</strong></span>`;
 
-                if (key === 'uk') {
-                    btnUk.className = "flex-1 sm:flex-none text-[11px] bg-red-600 hover:bg-red-700 text-white font-bold px-3 py-1.5 rounded-lg transition border border-red-500";
-                    btnTr.className = "flex-1 sm:flex-none text-[11px] bg-gray-800 hover:bg-gray-700 text-white font-bold px-3 py-1.5 rounded-lg border border-gray-700 transition";
+            let finalUrl = originalUrl;
+
+            // Semak sama ada URL mengandungi kata kunci 'selcuk' ATAU '1nyaler' (beIN Sports France 1)
+            if (originalUrl.includes('selcuk') || originalUrl.includes('1nyaler')) {
+                if (referrer) {
+                    finalUrl = `${CORS_PROXY}?url=${encodeURIComponent(originalUrl)}&referrer=${encodeURIComponent(referrer)}`;
                 } else {
-                    btnTr.className = "flex-1 sm:flex-none text-[11px] bg-red-600 hover:bg-red-700 text-white font-bold px-3 py-1.5 rounded-lg transition border border-red-500";
-                    btnUk.className = "flex-1 sm:flex-none text-[11px] bg-gray-800 hover:bg-gray-700 text-white font-bold px-3 py-1.5 rounded-lg border border-gray-700 transition";
+                    finalUrl = `${CORS_PROXY}?url=${encodeURIComponent(originalUrl)}`;
                 }
             }
+
+            // Tukar source Video.js dan play
+            player.src({
+                src: finalUrl,
+                type: 'application/x-mpegURL'
+            });
+            player.play();
         }
 
-        function switchStandings(type) {
-            const driversList = document.getElementById('drivers-standings');
-            const constructorsList = document.getElementById('constructors-standings');
-            const tabDrivers = document.getElementById('tab-drivers');
-            const tabConstructors = document.getElementById('tab-constructors');
+        // Tab Switching Standings & Stats
+        function showTab(tabName) {
+            // Hide all contents
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            // Remove active style from all tab buttons
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
 
-            if (type === 'drivers') {
-                driversList.classList.remove('hidden');
-                constructorsList.classList.add('hidden');
-                tabDrivers.className = "flex-1 py-1 text-center font-bold text-[11px] rounded bg-red-600 text-white transition";
-                tabConstructors.className = "flex-1 py-1 text-center font-bold text-[11px] text-gray-400 hover:text-white transition";
-            } else {
-                constructorsList.classList.remove('hidden');
-                driversList.classList.add('hidden');
-                tabConstructors.className = "flex-1 py-1 text-center font-bold text-[11px] rounded bg-red-600 text-white transition";
-                tabDrivers.className = "flex-1 py-1 text-center font-bold text-[11px] text-gray-400 hover:text-white transition";
-            }
+            // Show selected content & set button active
+            document.getElementById(`content-${tabName}`).classList.remove('hidden');
+            document.getElementById(`tab-${tabName}`).classList.add('active');
         }
     </script>
 </body>
