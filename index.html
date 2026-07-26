@@ -301,55 +301,63 @@
 
             </div>
 
-            <!-- MIDDLE COLUMN: Video Player & Controls -->
-            <div class="order-1 lg:order-2 lg:col-span-6 flex flex-col">
-                <div class="bg-gray-900 rounded-xl border border-gray-800 overflow-hidden shadow-2xl">
-                    <div class="p-2.5 bg-gray-950 border-b border-gray-800 flex flex-col justify-between">
-                        <div class="flex items-center space-x-2">
-                            <h2 id="channelTitle" class="text-xs font-bold text-white flex items-center gap-1.5">
-                                <i class="fa-solid fa-tv" style="color:var(--neon-glow);"></i>
-                                <span>Sky Sport F1 Germany</span>
-                            </h2>
-                        </div>
-                    </div>
-
-                    <!-- Video Container -->
-                    <div class="relative aspect-video bg-black">
-                        <video 
-                            id="f1-player" 
-                            class="video-js vjs-default-skin vjs-big-play-centered w-full h-full" 
-                            controls 
-                            preload="auto"
-                            data-setup='{"fluid": true}'>
-                            <source src="https://andro.226503.xyz/checklist/androstreamlivebs4.m3u8" type="application/x-mpegURL">
-                        </video>
-                    </div>
-
-                    <!-- Stream Selector Buttons -->
-                    <div class="p-2.5 bg-gray-950 border-t border-gray-800 flex flex-col gap-2">
-                        <span class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">Select Stream:</span>
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                            
-                            <!-- Sky Sport F1 Germany -->
-                            <button 
-                                onclick="playStream('https://andro.226503.xyz/checklist/androstreamlivebs4.m3u8', 'Sky Sport F1 Germany', '', this)" 
-                                class="mini-channel-item active text-left text-[11px] bg-gray-800 hover:bg-gray-700 text-white font-bold p-2 rounded-lg border border-gray-700 transition flex items-center justify-between">
-                                <span>Sky Sport F1 Germany</span>
-                                <i class="fa-solid fa-play text-xs text-red-500"></i>
-                            </button>
-
-                            <!-- BeIN Sports TR 4 (Selcuk Proxy Enabled) -->
-                            <button 
-                                onclick="playStream('https://dga1op10s1u3leo.52c26716e2e875.click/live/selcukbeinsports4/playlist.m3u8', 'BeIN Sports TR 4', 'https://www.sporcafe6.xyz/', this)" 
-                                class="mini-channel-item text-left text-[11px] bg-gray-800 hover:bg-gray-700 text-white font-bold p-2 rounded-lg border border-gray-700 transition flex items-center justify-between">
-                                <span>BeIN Sports TR 4</span>
-                                <i class="fa-solid fa-play text-xs text-red-500"></i>
-                            </button>
-
-                        </div>
-                    </div>
-                </div>
+<!-- MIDDLE COLUMN: Video Player & Controls -->
+<div class="order-1 lg:order-2 lg:col-span-6 flex flex-col">
+    <div class="bg-gray-900 rounded-xl border border-gray-800 overflow-hidden shadow-2xl">
+        <div class="p-2.5 bg-gray-950 border-b border-gray-800 flex flex-col justify-between">
+            <div class="flex items-center space-x-2">
+                <h2 id="channelTitle" class="text-xs font-bold text-white flex items-center gap-1.5">
+                    <i class="fa-solid fa-tv" style="color:var(--neon-glow);"></i>
+                    <span>Sky Sport F1 Germany</span>
+                </h2>
             </div>
+        </div>
+
+        <!-- Video Container -->
+        <div class="relative aspect-video bg-black">
+            <video 
+                id="f1-player" 
+                class="video-js vjs-default-skin vjs-big-play-centered w-full h-full" 
+                controls 
+                preload="auto"
+                data-setup='{"fluid": true}'>
+                <source src="https://andro.226503.xyz/checklist/androstreamlivebs4.m3u8" type="application/x-mpegURL">
+            </video>
+        </div>
+
+        <!-- Stream Selector Buttons -->
+        <div class="p-2.5 bg-gray-950 border-t border-gray-800 flex flex-col gap-2">
+            <span class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">Select Stream:</span>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                
+                <!-- Sky Sport F1 Germany -->
+                <button 
+                    onclick="playStream('https://andro.226503.xyz/checklist/androstreamlivebs4.m3u8', 'Sky Sport F1 Germany', '', this)" 
+                    class="mini-channel-item active text-left text-[11px] bg-gray-800 hover:bg-gray-700 text-white font-bold p-2 rounded-lg border border-gray-700 transition flex items-center justify-between">
+                    <span>Sky Sport F1 Germany</span>
+                    <i class="fa-solid fa-play text-xs text-red-500"></i>
+                </button>
+
+                <!-- BeIN Sports TR 4 (Selcuk Proxy Enabled) -->
+                <button 
+                    onclick="playStream('https://dga1op10s1u3leo.52c26716e2e875.click/live/selcukbeinsports4/playlist.m3u8', 'BeIN Sports TR 4', 'https://www.sporcafe6.xyz/', this)" 
+                    class="mini-channel-item text-left text-[11px] bg-gray-800 hover:bg-gray-700 text-white font-bold p-2 rounded-lg border border-gray-700 transition flex items-center justify-between">
+                    <span>BeIN Sports TR 4</span>
+                    <i class="fa-solid fa-play text-xs text-red-500"></i>
+                </button>
+
+                <!-- Antena Sport -->
+                <button 
+                    onclick="playStream('https://aes.m3u8simplu.workers.dev/antneassport/index.m3u8', 'Antena Sport', '', this)" 
+                    class="mini-channel-item text-left text-[11px] bg-gray-800 hover:bg-gray-700 text-white font-bold p-2 rounded-lg border border-gray-700 transition flex items-center justify-between">
+                    <span>Antena Sport</span>
+                    <i class="fa-solid fa-play text-xs text-red-500"></i>
+                </button>
+
+            </div>
+        </div>
+    </div>
+</div>
 
             <!-- RIGHT COLUMN: Detailed Standings & Stats -->
             <div class="order-3 lg:order-3 lg:col-span-3 bg-gray-900 rounded-xl border border-gray-800 p-3 h-[680px] flex flex-col">
