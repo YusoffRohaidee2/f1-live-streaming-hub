@@ -13,8 +13,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
-    <!-- Video.js CSS & JS -->
+<!-- Video.js Styles & Theme -->
     <link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet" />
+    <link href="https://unpkg.com/@videojs/themes@1.0.1/dist/city/index.css" rel="stylesheet" />
+
+    <!-- Video.js Script -->
     <script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
 
     <style>
@@ -305,7 +308,7 @@
 
                     <!-- Video Container (Tukar ganti Video.js / Iframe) -->
                     <div class="relative aspect-video bg-black" id="player-container">
-                        <!-- Default Player: Iframe Sky Sports F1 UK Server 1 -->
+                        <!-- Default Player: Iframe Sky Sports F1 UK Server 1 tanpa Sandbox -->
                         <iframe id="iframe-player" src="https://streamfree.top/embed/racing/skyf1" width="100%" height="100%" frameborder="0" scrolling="no" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen class="w-full h-full"></iframe>
                         
                         <video 
@@ -348,7 +351,7 @@
                                 <i class="fa-solid fa-play text-xs text-red-500"></i>
                             </button>
 
-                                                        <!-- Sky Sports F1 UK -->
+                            <!-- DAZN F1 -->
                             <button 
                                 onclick="playIframe('https://hux-giants.shop/embed/daznf1-es', 'DAZN F1', this)" 
                                 class="mini-channel-item text-left text-[11px] bg-gray-800 hover:bg-gray-700 text-white font-bold p-2 rounded-lg border border-gray-700 transition flex items-center justify-between">
@@ -370,7 +373,7 @@
                     <button onclick="showTab('constructors')" id="tab-constructors" class="tab-btn py-1 text-center font-bold rounded text-gray-400 hover:text-white transition">Teams</button>
                     <button onclick="showTab('sprint')" id="tab-sprint" class="tab-btn py-1 text-center font-bold rounded text-gray-400 hover:text-white transition">⚡ Sprint</button>
                     <button onclick="showTab('stats')" id="tab-stats" class="tab-btn py-1 text-center font-bold rounded text-gray-400 hover:text-white transition">🏆 Stats</button>
-                    <button onclick="showTab('form')" id="tab-form" class="tab-btn py-1 text-center font-bold rounded text-gray-400 hover:text-white transition col-span-2">📈 Form (Last 5)</button>
+                    <button onclick="showTab('form')" id="tab-form" class="tab-btn py-1 text-center font-bold rounded text-gray-400 hover:text-white col-span-2">📈 Form (Last 5)</button>
                 </div>
 
                 <!-- 1. Drivers' Championship (Kedudukan Terkini 2026) -->
@@ -587,7 +590,7 @@
         const iframePlayer = document.getElementById('iframe-player');
         const videoJsElement = document.getElementById('f1-player');
 
-        // Mainkan Stream berasaskan Iframe
+        // Mainkan Stream berasaskan Iframe tanpa sandbox
         function playIframe(embedUrl, name, element) {
             document.querySelectorAll('.mini-channel-item').forEach(el => el.classList.remove('active'));
             if(element) element.classList.add('active');
@@ -598,8 +601,9 @@
             player.pause();
             videoJsElement.classList.add('hidden');
 
-            // Tunjukkan dan tukar iframe
+            // Tunjukkan dan tukar iframe tanpa sebarang sekatan sandbox
             iframePlayer.classList.remove('hidden');
+            iframePlayer.removeAttribute('sandbox');
             iframePlayer.src = embedUrl;
         }
 
