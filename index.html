@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
-<!-- Video.js Styles & Theme -->
+    <!-- Video.js Styles & Theme -->
     <link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet" />
     <link href="https://unpkg.com/@videojs/themes@1.0.1/dist/city/index.css" rel="stylesheet" />
 
@@ -326,7 +326,6 @@
                         <span class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">Select Stream:</span>
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
                             
-
                             <!-- Sky Sports F1 UK -->
                             <button 
                                 onclick="playIframe('https://streamfree.top/embed/racing/skyf1', 'Sky Sports F1 UK', this)" 
@@ -335,27 +334,11 @@
                                 <i class="fa-solid fa-play text-xs text-red-500"></i>
                             </button>
 
-                            <!-- Sky Sport F1 Germany -->
+                            <!-- F1 Channel Ireland (Added via Proxy Worker) -->
                             <button 
-                                onclick="playStream('https://andro.226503.xyz/checklist/androstreamlivebs4.m3u8', 'Sky Sport F1 Germany', '', this)" 
+                                onclick="playStream('https://amg12058-c15studio-amg12058c1-lg-us-5787.playouts.now.amagi.tv/playlist1080p.m3u8', 'F1 Channel Ireland', '', this)" 
                                 class="mini-channel-item text-left text-[11px] bg-gray-800 hover:bg-gray-700 text-white font-bold p-2 rounded-lg border border-gray-700 transition flex items-center justify-between">
-                                <span>Sky Sport F1 Germany</span>
-                                <i class="fa-solid fa-play text-xs text-red-500"></i>
-                            </button>
-
-                            <!-- Sky Sport F1 Italy -->
-                            <button 
-                                onclick="playStream('https://1nyaler.streamhostingcdn.top/stream/8/index.m3u8', 'Sky Sport F1 Italy', '', this)" 
-                                class="mini-channel-item text-left text-[11px] bg-gray-800 hover:bg-gray-700 text-white font-bold p-2 rounded-lg border border-gray-700 transition flex items-center justify-between">
-                                <span>Sky Sport F1 Italy</span>
-                                <i class="fa-solid fa-play text-xs text-red-500"></i>
-                            </button>
-
-                            <!-- DAZN F1 -->
-                            <button 
-                                onclick="playIframe('https://hux-giants.shop/embed/daznf1-es', 'DAZN F1', this)" 
-                                class="mini-channel-item text-left text-[11px] bg-gray-800 hover:bg-gray-700 text-white font-bold p-2 rounded-lg border border-gray-700 transition flex items-center justify-between">
-                                <span>DAZN F1</span>
+                                <span>F1 Channel Ireland</span>
                                 <i class="fa-solid fa-play text-xs text-red-500"></i>
                             </button>
                             
@@ -628,7 +611,7 @@
 
             let finalUrl = originalUrl;
 
-            if (originalUrl.includes('selcuk') || originalUrl.includes('1nyaler')) {
+            if (originalUrl.includes('amagi.tv') || originalUrl.includes('selcuk') || originalUrl.includes('1nyaler')) {
                 if (referrer) {
                     finalUrl = `${CORS_PROXY}?url=${encodeURIComponent(originalUrl)}&referrer=${encodeURIComponent(referrer)}`;
                 } else {
