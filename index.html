@@ -288,7 +288,7 @@
 
                             <!-- Turkiye: beIN Sports 4 (Server 1) -->
                             <button 
-                                onclick="playStream('https://andro.226503.xyz/checklist/androstreamlivebs4.m3u8', '🇹🇷 beIN Sports 4 (Server 1)', this)" 
+                                onclick="playEmbedStream('https://player.icanplay.my.id/?url=https://andro.226503.xyz/checklist/androstreamlivebs4.m3u8', '🇹🇷 beIN Sports 4 (Server 1)', this)" 
                                 class="mini-channel-item text-left text-[11px] bg-gray-800 hover:bg-gray-700 text-white font-bold p-2 rounded-lg border border-gray-700 transition flex items-center justify-between">
                                 <span>🇹🇷 beIN Sports 4 (Server 1)</span>
                                 <i class="fa-solid fa-play text-xs text-red-500"></i>
@@ -296,7 +296,7 @@
 
                             <!-- Turkiye: beIN Sports 4 (Server 2) -->
                             <button 
-                                onclick="playStream('https://andro.226503.xyz/checklist/androstreamlivebs4.m3u8', '🇹🇷 beIN Sports 4 (Server 2)', this)" 
+                                onclick="playEmbedStream('https://player.icanplay.my.id/?url=https://andro.226503.xyz/checklist/androstreamlivebs4.m3u8', '🇹🇷 beIN Sports 4 (Server 2)', this)" 
                                 class="mini-channel-item text-left text-[11px] bg-gray-800 hover:bg-gray-700 text-white font-bold p-2 rounded-lg border border-gray-700 transition flex items-center justify-between">
                                 <span>🇹🇷 beIN Sports 4 (Server 2)</span>
                                 <i class="fa-solid fa-play text-xs text-red-500"></i>
@@ -346,11 +346,11 @@
                             <span class="font-bold text-white">1950</span>
                         </div>
 
-                    <div class="bg-gray-950 p-1.5 rounded border border-gray-800 mt-1">
-                        <span class="text-gray-400 block">🎖️ Lap Record</span>
-                        <span class="font-bold text-red-400">1:20.901</span>
-                    <span class="text-[9px] text-gray-400 block">(Lando Norris, 2025)</span>
-                    </div>
+                        <div class="bg-gray-950 p-1.5 rounded border border-gray-800 mt-1">
+                            <span class="text-gray-400 block">🎖️ Lap Record</span>
+                            <span class="font-bold text-red-400">1:20.901</span>
+                            <span class="text-[9px] text-gray-400 block">(Lando Norris, 2025)</span>
+                        </div>
                     </div>
                 </div>
 
@@ -430,6 +430,22 @@
                 type: 'application/x-mpegURL'
             });
             player.play();
+        }
+
+        // Mainkan Stream berasaskan Embed (Iframe Player)
+        function playEmbedStream(embedUrl, name, element) {
+            document.querySelectorAll('.mini-channel-item').forEach(el => el.classList.remove('active'));
+            if(element) element.classList.add('active');
+
+            channelTitle.innerHTML = `<i class="fa-solid fa-tv" style="color:var(--neon-glow);"></i> <span>Sedang Dimainkan: <strong>${name}</strong></span>`;
+
+            // Hentikan dan sembunyikan Video.js
+            player.pause();
+            videoJsElement.classList.add('hidden');
+
+            // Paparkan dan muatkan url ke iframe
+            iframePlayer.classList.remove('hidden');
+            iframePlayer.src = embedUrl;
         }
 
         // Auto-play stream pertama secara automatik semasa mula
