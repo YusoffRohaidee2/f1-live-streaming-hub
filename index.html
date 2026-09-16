@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>F1 Live Streaming Hub</title>
+    <title>F1 Live Streaming Hub — Live Stream & F1 VOD</title>
 
     <!-- Favicon Kereta F1 -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ef4444'><path d='M23.5 12.5l-2.5-3h-3l-2-3h-5l-1 2H6L4 7.5H1v3h2.18c.41 1.16 1.51 2 2.82 2s2.41-.84 2.82-2h4.36c.41 1.16 1.51 2 2.82 2s2.41-.84 2.82-2H23.5v-1zM6 11.5c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm10 0c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1z'/></svg>" type="image/svg+xml">
@@ -51,12 +51,17 @@
             border-color: #e10600 !important;
             background-color: rgba(225, 6, 0, 0.2) !important;
         }
+        .tab-btn.active {
+            border-bottom: 2px solid #e10600;
+            color: #ffffff;
+            background-color: rgba(255, 255, 255, 0.05);
+        }
     </style>
 </head>
 <body class="text-gray-100 min-h-screen flex flex-col justify-between select-none text-xs">
 
     <!-- Header -->
-    <header class="border-b border-gray-800 bg-gray-900/90 backdrop-blur-md sticky top-0 z-50">
+    <header class="border-b border-gray-800 bg-gray-900/90 backdrop-blur-md sticky top-0 z-40">
         <div class="max-w-7xl mx-auto px-3 py-2 flex items-center justify-between">
             <div class="flex items-center space-x-2">
                 <img src="https://logodownload.org/wp-content/uploads/2016/11/formula-1-logo-7.png" alt="F1 Logo" class="h-6 object-contain">
@@ -68,6 +73,19 @@
                     <span class="text-[10px] text-gray-400 font-medium block -mt-0.5">by Sports Hub Official</span>
                 </div>
             </div>
+
+            <!-- Tab Navigation Header -->
+            <div class="flex items-center space-x-1 border-b border-gray-800">
+                <button id="tab-live-btn" onclick="switchTab('live')" class="tab-btn active px-3 py-1.5 font-bold text-gray-400 hover:text-white transition flex items-center gap-1.5 rounded-t-lg">
+                    <i class="fa-solid fa-broadcast-tower text-red-500"></i>
+                    <span>Live Stream</span>
+                </button>
+                <button id="tab-vod-btn" onclick="switchTab('vod')" class="tab-btn px-3 py-1.5 font-bold text-gray-400 hover:text-white transition flex items-center gap-1.5 rounded-t-lg relative">
+                    <i class="fa-solid fa-film text-amber-400"></i>
+                    <span>F1 VOD</span>
+                    <span class="bg-red-600 text-white text-[9px] font-extrabold px-1 py-0.2 rounded uppercase animate-bounce ml-1">NEW!</span>
+                </button>
+            </div>
         </div>
     </header>
 
@@ -78,12 +96,12 @@
         </div>
     </div>
 
-    <!-- Main Content -->
-    <main class="max-w-[1400px] mx-auto px-2 sm:px-4 py-4 flex-grow w-full">
+    <!-- MAIN TAB 1: LIVE STREAM -->
+    <main id="tab-live-content" class="max-w-[1400px] mx-auto px-2 sm:px-4 py-4 flex-grow w-full">
         
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-3 items-start">
             
-            <!-- LEFT COLUMN: Race Calendar -->
+            <!-- LEFT COLUMN: Race Calendar (FULL DATA PRESERVED) -->
             <div class="order-2 lg:order-1 lg:col-span-3 space-y-3">
                 <div class="bg-gray-900 rounded-xl border border-gray-800 p-3 h-[600px] flex flex-col">
                     <div class="flex items-center justify-between pb-2 border-b border-gray-800 mb-2">
@@ -95,7 +113,7 @@
 
                     <div class="overflow-y-auto space-y-1.5 flex-grow pr-1 custom-scrollbar">
                         
-                        <!-- R12 Dutch GP (PASSED) -->
+                        <!-- R12 Dutch GP -->
                         <div class="p-2 rounded bg-gray-950/40 border border-gray-800 flex justify-between items-center opacity-60">
                             <div>
                                 <div class="flex items-center gap-1 font-bold text-gray-400">
@@ -108,7 +126,7 @@
                             <div class="text-right font-medium text-gray-500 text-[10px]">21–23 Aug</div>
                         </div>
 
-                        <!-- R13 Italian GP (LIVE) -->
+                        <!-- R13 Italian GP -->
                         <div class="p-2 rounded bg-red-950/90 border border-red-500 flex justify-between items-center shadow-lg">
                             <div>
                                 <div class="flex items-center gap-1 font-bold text-white">
@@ -121,7 +139,7 @@
                             <div class="text-right font-bold text-red-400 text-[10px]">4–6 Sep</div>
                         </div>
 
-                        <!-- R14 Spanish GP (NEXT) -->
+                        <!-- R14 Spanish GP -->
                         <div class="p-2 rounded bg-amber-950/40 border border-amber-500/60 flex justify-between items-center">
                             <div>
                                 <div class="flex items-center gap-1 font-bold text-amber-200">
@@ -134,7 +152,7 @@
                             <div class="text-amber-300 font-semibold text-[10px]">11–13 Sep</div>
                         </div>
 
-                        <!-- R15 Azerbaijan GP (LATER) -->
+                        <!-- R15 Azerbaijan GP -->
                         <div class="p-2 rounded bg-blue-950/30 border border-blue-500/40 flex justify-between items-center">
                             <div>
                                 <div class="flex items-center gap-1 font-bold text-blue-200">
@@ -253,8 +271,6 @@
                     <div class="p-2.5 bg-gray-950 border-t border-gray-800 flex flex-col gap-2">
                         <span class="text-[11px] font-semibold text-gray-400 uppercase tracking-wider">Select Live Stream:</span>
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 max-h-[250px] overflow-y-auto pr-1 custom-scrollbar">
-                            
-                            <!-- Malaysia: beIN Sports 1 MY (Server 1) -->
                             <button 
                                 onclick="playStream('https://ott.djdoolky76.io/api/streams/159/manifest.m3u8?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsInN0cmVhbVRva2VuIjoiOGVkOTY4MTIzODE2ZDQyY2U0Y2I5Y2E0YjBkNTI2ZTRlNDFmMDViZTY5MmE1ZjBjNTE3MjU1MjAwNTE3NWQ5OSIsImlhdCI6MTc4ODg1NTI5NywiZXhwIjoxNzkwNTUzNTk5fQ.SMMqC8ske6hFRgVrE8BAMPlH35xSkMqfuSI79zZ3ZAQ', '🇲🇾 beIN Sports 1 MY', this)" 
                                 class="mini-channel-item text-left text-[11px] bg-gray-800 hover:bg-gray-700 text-white font-bold p-2 rounded-lg border border-gray-700 transition flex items-center justify-between">
@@ -266,7 +282,7 @@
                 </div>
             </div>
 
-            <!-- RIGHT COLUMN: Circuit Information, Weather & Tyres -->
+            <!-- RIGHT COLUMN: Circuit Information, Weather & Tyres (FULL DATA PRESERVED) -->
             <div class="order-3 lg:order-3 lg:col-span-3 space-y-3">
                 
                 <!-- Circuit Information -->
@@ -355,9 +371,119 @@
         </div>
     </main>
 
+    <!-- MAIN TAB 2: F1 VOD (HIDDEN BY DEFAULT) -->
+    <main id="tab-vod-content" class="max-w-[1400px] mx-auto px-2 sm:px-4 py-4 flex-grow w-full hidden">
+        
+        <!-- Search & Filter Bar -->
+        <div class="bg-gray-900 p-3 rounded-xl border border-gray-800 mb-4 flex flex-col sm:flex-row items-center justify-between gap-3">
+            <div class="flex items-center gap-2 w-full sm:w-auto">
+                <i class="fa-solid fa-magnifying-glass text-gray-400 text-sm"></i>
+                <input 
+                    type="text" 
+                    id="vod-search" 
+                    onkeyup="filterVOD()" 
+                    placeholder="Search race, driver, circuit (e.g. Spanish GP, Norris, Madrid)..." 
+                    class="bg-gray-950 text-white text-xs px-3 py-2 rounded-lg border border-gray-800 focus:outline-none focus:border-red-600 w-full sm:w-80">
+            </div>
+            <div class="text-gray-400 text-[11px] font-semibold">
+                Showing VOD Race Replays
+            </div>
+        </div>
+
+        <!-- VOD Race Grid -->
+        <div id="vod-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            
+            <!-- VOD Card 1: Spanish GP 2026 -->
+            <div class="vod-card bg-gray-900 rounded-xl border border-gray-800 overflow-hidden shadow-lg hover:border-red-600/50 transition cursor-pointer group" onclick="openVodModal()">
+                <div class="relative aspect-video overflow-hidden bg-black">
+                    <img src="https://scontent.fkul8-5.fna.fbcdn.net/v/t39.30808-6/799458951_1667523668717198_7693600000140453918_n.jpg?stp=dst-jpg_tt6&cstp=mx800x427&ctp=s800x427&_nc_cat=108&_nc_map=urlgen_bucketless&ccb=1-7&_nc_sid=127cfc&_nc_ohc=AQ-wWT8MMR8Q7kNvwFGuajF&_nc_oc=AdqY8cQZwZecs5gBlktLt5OtFVuBmcJz1W9pDjslSEqB7_gp_AI9oudHfOT9uvt7sS8&_nc_zt=23&_nc_ht=scontent.fkul8-5.fna&_nc_gid=yeIthWjqVn-OLrZkd9WtLA&_nc_ss=7b2a8&oh=00_AQL0iP4r8_0pslbzbUPYkqPR32u7Dm2PG8N1MxtnJCY4Ag&oe=6AB04CBC" alt="Spanish GP 2026 Thumbnail" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                    <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition flex items-center justify-center">
+                        <div class="w-12 h-12 rounded-full bg-red-600/90 text-white flex items-center justify-center shadow-lg group-hover:scale-110 transition">
+                            <i class="fa-solid fa-play text-lg ml-1"></i>
+                        </div>
+                    </div>
+                    <span class="absolute top-2 left-2 bg-red-600 text-white text-[9px] font-extrabold px-1.5 py-0.5 rounded uppercase">Full Replay</span>
+                    <span class="absolute bottom-2 right-2 bg-black/80 text-gray-300 text-[10px] font-medium px-1.5 py-0.5 rounded">F1 TV Feed</span>
+                </div>
+
+                <div class="p-3 space-y-2">
+                    <h3 class="font-bold text-white text-xs leading-snug hover:text-red-500 transition vod-title">
+                        Formula 1 TAG Heuer Gran Premio de España 2026 — Race Replay
+                    </h3>
+                    <p class="text-gray-400 text-[10px] line-clamp-3 vod-desc">
+                        Relive the historic 2026 Spanish Grand Prix, the first Formula 1 race held at the newly-built Madring circuit in Madrid, marking the end of an era at Circuit de Barcelona-Catalunya. Round 14 of the 2026 season saw Lando Norris claim pole position as drivers tackled the brand-new track for the very first time. Watch every overtake, strategy call, and battle for position as the grid adapts to Madring's demanding new layout. Full race replay, feed by F1 TV.
+                    </p>
+                    <div class="pt-2 border-t border-gray-800/80 flex items-center justify-between text-[10px] text-gray-500">
+                        <span><i class="fa-solid fa-flag-checkered text-red-500 mr-1"></i>Round 14 (2026)</span>
+                        <span><i class="fa-solid fa-location-dot text-amber-500 mr-1"></i>Madring, Madrid</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- VOD POPUP MODAL (IFRAME PLAYER WITH NEXT BUTTON) -->
+    <div id="vod-modal" class="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-2 sm:p-4 hidden backdrop-blur-sm">
+        <div class="bg-gray-900 border border-gray-800 rounded-xl overflow-hidden w-full max-w-4xl shadow-2xl flex flex-col max-h-[95vh]">
+            
+            <!-- Modal Header -->
+            <div class="p-3 bg-gray-950 border-b border-gray-800 flex items-center justify-between">
+                <div class="flex items-center space-x-2">
+                    <span id="modal-part-badge" class="bg-red-600 text-white text-[10px] font-extrabold px-1.5 py-0.5 rounded uppercase">PART 1</span>
+                    <h3 class="font-bold text-white text-xs sm:text-sm line-clamp-1">Formula 1 TAG Heuer Gran Premio de España 2026 — Race Replay</h3>
+                </div>
+                <button onclick="closeVodModal()" class="text-gray-400 hover:text-white transition text-base px-2">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <!-- Modal Iframe Video Container -->
+            <div class="relative aspect-video bg-black w-full">
+                <iframe 
+                    id="vod-iframe" 
+                    src="" 
+                    width="100%" 
+                    height="100%" 
+                    frameborder="0" 
+                    scrolling="no" 
+                    allow="autoplay; encrypted-media; picture-in-picture; fullscreen" 
+                    allowfullscreen 
+                    class="w-full h-full">
+                </iframe>
+            </div>
+
+            <!-- Modal Footer & Next Button Navigation -->
+            <div class="p-3 bg-gray-950 border-t border-gray-800 flex items-center justify-between">
+                <div class="text-[11px] text-gray-400">
+                    Playing: <span id="current-part-text" class="text-white font-bold">Part 1</span>
+                </div>
+
+                <div class="flex items-center space-x-2">
+                    <button 
+                        id="btn-prev-part" 
+                        onclick="switchVodPart(1)" 
+                        class="bg-gray-800 hover:bg-gray-700 text-gray-300 font-bold px-3 py-1.5 rounded text-[11px] transition disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-1" disabled>
+                        <i class="fa-solid fa-chevron-left"></i>
+                        <span>Part 1</span>
+                    </button>
+
+                    <button 
+                        id="btn-next-part" 
+                        onclick="switchVodPart(2)" 
+                        class="bg-red-600 hover:bg-red-700 text-white font-bold px-3 py-1.5 rounded text-[11px] transition flex items-center gap-1 shadow-lg animate-pulse">
+                        <span>Next (Part 2)</span>
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
     <!-- Footer -->
     <footer class="border-t border-gray-800 bg-gray-950 py-3 text-center text-[11px] text-gray-500">
-        <p>&copy; 2026 F1 Live Streaming Hub by Sports Hub Official. All rights reserved.</p>
+        <p>&copy; 2026 F1 Streaming Hub by Sports Hub Official. All rights reserved.</p>
     </footer>
 
     <!-- Video.js JS Library -->
@@ -370,18 +496,99 @@
         const iframePlayer = document.getElementById('iframe-player');
         const videoJsElement = document.getElementById('f1-player');
 
-        // Mainkan Stream berasaskan .m3u8 (Video.js)
+        // Parts VOD Data
+        const vodParts = {
+            1: "https://geo.dailymotion.com/player.html?video=xb84g2e",
+            2: "https://geo.dailymotion.com/player.html?video=xb858km"
+        };
+        let currentPart = 1;
+
+        // Switch Main Tabs (Live vs VOD)
+        function switchTab(tab) {
+            const liveTabBtn = document.getElementById('tab-live-btn');
+            const vodTabBtn = document.getElementById('tab-vod-btn');
+            const liveContent = document.getElementById('tab-live-content');
+            const vodContent = document.getElementById('tab-vod-content');
+
+            if (tab === 'live') {
+                liveTabBtn.classList.add('active');
+                vodTabBtn.classList.remove('active');
+                liveContent.classList.remove('hidden');
+                vodContent.classList.add('hidden');
+            } else {
+                vodTabBtn.classList.add('active');
+                liveTabBtn.classList.remove('active');
+                vodContent.classList.remove('hidden');
+                liveContent.classList.add('hidden');
+                if (player) player.pause();
+            }
+        }
+
+        // Search VOD Filter
+        function filterVOD() {
+            const input = document.getElementById('vod-search').value.toLowerCase();
+            const cards = document.querySelectorAll('.vod-card');
+
+            cards.forEach(card => {
+                const title = card.querySelector('.vod-title').innerText.toLowerCase();
+                const desc = card.querySelector('.vod-desc').innerText.toLowerCase();
+
+                if (title.includes(input) || desc.includes(input)) {
+                    card.classList.remove('hidden');
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+        }
+
+        // Open VOD Modal & Play Part 1
+        function openVodModal() {
+            const modal = document.getElementById('vod-modal');
+            modal.classList.remove('hidden');
+            switchVodPart(1);
+        }
+
+        // Close VOD Modal
+        function closeVodModal() {
+            const modal = document.getElementById('vod-modal');
+            const vodIframe = document.getElementById('vod-iframe');
+            modal.classList.add('hidden');
+            vodIframe.src = "about:blank";
+        }
+
+        // Switch VOD Part (Part 1 <-> Part 2)
+        function switchVodPart(partNum) {
+            currentPart = partNum;
+            const vodIframe = document.getElementById('vod-iframe');
+            const partBadge = document.getElementById('modal-part-badge');
+            const currentPartText = document.getElementById('current-part-text');
+            const btnPrev = document.getElementById('btn-prev-part');
+            const btnNext = document.getElementById('btn-next-part');
+
+            vodIframe.src = vodParts[partNum];
+            partBadge.innerText = `PART ${partNum}`;
+            currentPartText.innerText = `Part ${partNum}`;
+
+            if (partNum === 1) {
+                btnPrev.disabled = true;
+                btnNext.disabled = false;
+                btnNext.classList.add('animate-pulse');
+            } else {
+                btnPrev.disabled = false;
+                btnNext.disabled = true;
+                btnNext.classList.remove('animate-pulse');
+            }
+        }
+
+        // Play Stream .m3u8 (Live Video.js)
         function playStream(finalUrl, name, element) {
             document.querySelectorAll('.mini-channel-item').forEach(el => el.classList.remove('active'));
             if(element) element.classList.add('active');
 
             channelTitle.innerHTML = `<i class="fa-solid fa-tv" style="color:var(--neon-glow);"></i> <span>Sedang Dimainkan: <strong>${name}</strong></span>`;
 
-            // Sembunyikan iframe
             iframePlayer.src = "about:blank";
             iframePlayer.classList.add('hidden');
-
-            // Tunjukkan Video.js
             videoJsElement.classList.remove('hidden');
 
             player.src({
@@ -391,23 +598,7 @@
             player.play();
         }
 
-        // Mainkan Stream berasaskan Embed (Iframe Player)
-        function playEmbedStream(embedUrl, name, element) {
-            document.querySelectorAll('.mini-channel-item').forEach(el => el.classList.remove('active'));
-            if(element) element.classList.add('active');
-
-            channelTitle.innerHTML = `<i class="fa-solid fa-tv" style="color:var(--neon-glow);"></i> <span>Sedang Dimainkan: <strong>${name}</strong></span>`;
-
-            // Hentikan dan sembunyikan Video.js
-            player.pause();
-            videoJsElement.classList.add('hidden');
-
-            // Paparkan dan muatkan url ke iframe
-            iframePlayer.classList.remove('hidden');
-            iframePlayer.src = embedUrl;
-        }
-
-        // Auto-play stream pertama secara automatik semasa mula
+        // Auto-play stream pada muatan awal
         window.addEventListener('DOMContentLoaded', () => {
             const firstBtn = document.querySelector('.mini-channel-item');
             if (firstBtn) {
